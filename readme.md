@@ -1,6 +1,7 @@
 ### HOWTO
 
 Build executable binary file:
+
     go build -o slasher
 
 Configure your revocation request in [/pkg/config/config.yaml.default](https://github.com/OCRVblockchain/slasher/blob/master/pkg/config/config.yaml.default) and rename config.yaml.default to config.yaml           
