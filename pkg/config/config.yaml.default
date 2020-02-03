@@ -7,3 +7,4 @@ RevocationRequest:
   AKI:     # AKI (Authority Key Identifier) of the certificate to be revoked
   Reason:  # Reason is the reason for revocation. See https://godoc.org/golang.org/x/crypto/ocsp ; for valid values. The default value is 0 (ocsp.Unspecified)
   CAName:  # CAName is the name of the CA to connect to
+
