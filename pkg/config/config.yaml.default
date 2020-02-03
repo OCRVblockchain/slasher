@@ -1,0 +1,9 @@
+ConnectionProfile: "path/to/connection.yaml"
+
+# documented here: https://godoc.org/github.com/hyperledger/fabric-sdk-go/pkg/client/msp#RevocationRequest
+RevocationRequest:
+  Name:    # Name of the identity whose certificates should be revoked. If this field is omitted, then Serial and AKI must be specified.
+  Serial:  # Serial number of the certificate to be revoked. If this is omitted, then Name must be specified
+  AKI:     # AKI (Authority Key Identifier) of the certificate to be revoked
+  Reason:  # Reason is the reason for revocation. See https://godoc.org/golang.org/x/crypto/ocsp ; for valid values. The default value is 0 (ocsp.Unspecified)
+  CAName:  # CAName is the name of the CA to connect to
