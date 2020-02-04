@@ -77,3 +77,17 @@ func (s *Slasher) Revoke() (*msp.RevocationResponse, error) {
 
 	return RevocationResponse, nil
 }
+
+func (s *Slasher) RemoveIdentity() (*msp.IdentityResponse, error) {
+
+	IdentityResponse, err := s.MSPClient.RemoveIdentity(&msp.RemoveIdentityRequest{
+		ID:     s.Conf.RevocationRequest.Name,
+		Force:  true,
+		CAName: s.Conf.RevocationRequest.CAName,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	return IdentityResponse, nil
+}
