@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	slasherConfig "github.com/OCRVblockchain/slasher/pkg/config"
 	"github.com/OCRVblockchain/slasher/pkg/core"
 	"github.com/OCRVblockchain/slasher/pkg/helpers"
@@ -12,7 +11,7 @@ func main() {
 
 	conf, err := slasherConfig.GetConfig()
 	if err != nil {
-		log.Fatal(fmt.Sprintf("Failed to get Slasher config: %s\n", err))
+		log.Fatal(err)
 	}
 
 	slasher, err := core.New(conf)
@@ -25,10 +24,22 @@ func main() {
 		log.Fatal(err)
 	}
 
-	revocationResponse, err := slasher.Revoke()
-	if err != nil {
-		log.Fatal(err)
-	}
+	if conf.Mode == "revokecert" || conf.Mode == "fullslash" {
 
-	helpers.ShowRevoked(revocationResponse)
+		revocationResponse, err := slasher.Revoke()
+		if err != nil {
+			log.Fatal(err)
+		}
+		helpers.ShowRevoked(revocationResponse)
+
+	}
+	if conf.Mode == "removeidentity" || conf.Mode == "fullslash" {
+
+		identityResponse, err := slasher.RemoveIdentity()
+		if err != nil {
+			log.Fatal(err)
+		}
+		helpers.ShowRemoved(identityResponse)
+
+	}
 }
