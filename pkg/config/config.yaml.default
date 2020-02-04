@@ -8,3 +8,8 @@ RevocationRequest:
   Reason:  # Reason is the reason for revocation. See https://godoc.org/golang.org/x/crypto/ocsp ; for valid values. The default value is 0 (ocsp.Unspecified)
   CAName:  # CAName is the name of the CA to connect to
 
+# documented here: https://godoc.org/github.com/hyperledger/fabric-sdk-go/pkg/client/msp#RemoveIdentityRequest
+RemoveIdentityRequest:
+  ID: TestUser     # The enrollment ID which uniquely identifies an identity
+  Force:           # Forces removing your own identity
+  CAName:          # Name of the CA
