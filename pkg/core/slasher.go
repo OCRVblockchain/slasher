@@ -5,7 +5,6 @@ import (
 	"fmt"
 	slasherConfig "github.com/OCRVblockchain/slasher/pkg/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/msp"
-	//"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
 	log "github.com/sirupsen/logrus"
