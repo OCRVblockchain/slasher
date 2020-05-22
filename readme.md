@@ -18,4 +18,9 @@ Start:
     revokecert - for certificate revocation 
     removeidentity - for identity removal 
     fullslash - for both options
-    delall - delete all users (certs and identities)
+    delall [--exclude] - delete all users (certs and identities)
+    
+    
+Delete all identities and revoke all certs except of "admin":
+
+    ./slasher --identity admin  --secret adminpw --mode delall --exclude admin
