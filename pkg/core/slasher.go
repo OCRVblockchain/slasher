@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	slasherConfig "github.com/OCRVblockchain/slasher/pkg/config"
+	"github.com/OCRVblockchain/slasher/pkg/helpers"
 	"github.com/hyperledger/fabric-sdk-go/pkg/client/msp"
 	"github.com/hyperledger/fabric-sdk-go/pkg/core/config"
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabsdk"
@@ -77,6 +78,23 @@ func (s *Slasher) Revoke() (*msp.RevocationResponse, error) {
 	return RevocationResponse, nil
 }
 
+func (s *Slasher) RevokeAll(identities []*msp.IdentityResponse) error {
+
+	for _, identity := range identities {
+		revocationResponse, err := s.MSPClient.Revoke(&msp.RevocationRequest{
+			Name:   identity.ID,
+			CAName: identity.CAName,
+		})
+		if err != nil {
+			return err
+		}
+
+		helpers.ShowRevoked(revocationResponse)
+	}
+
+	return nil
+}
+
 func (s *Slasher) RemoveIdentity() (*msp.IdentityResponse, error) {
 
 	IdentityResponse, err := s.MSPClient.RemoveIdentity(&msp.RemoveIdentityRequest{
@@ -89,4 +107,21 @@ func (s *Slasher) RemoveIdentity() (*msp.IdentityResponse, error) {
 	}
 
 	return IdentityResponse, nil
+}
+
+func (s *Slasher) RemoveIdentities(identities []*msp.IdentityResponse) error {
+
+	for _, identity := range identities {
+		identityResponse, err := s.MSPClient.RemoveIdentity(&msp.RemoveIdentityRequest{
+			ID:     identity.ID,
+			Force:  true,
+			CAName: identity.CAName,
+		})
+		if err != nil {
+			return err
+		}
+		helpers.ShowRemoved(identityResponse)
+	}
+
+	return nil
 }

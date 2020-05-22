@@ -25,21 +25,34 @@ func main() {
 	}
 
 	if conf.Mode == "revokecert" || conf.Mode == "fullslash" {
-
 		revocationResponse, err := slasher.Revoke()
 		if err != nil {
 			log.Fatal(err)
 		}
 		helpers.ShowRevoked(revocationResponse)
-
 	}
-	if conf.Mode == "removeidentity" || conf.Mode == "fullslash" {
 
+	if conf.Mode == "removeidentity" || conf.Mode == "fullslash" {
 		identityResponse, err := slasher.RemoveIdentity()
 		if err != nil {
 			log.Fatal(err)
 		}
 		helpers.ShowRemoved(identityResponse)
+	}
 
+	if conf.Mode == "delall" {
+		identities, err := slasher.MSPClient.GetAllIdentities()
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		err = slasher.RevokeAll(identities)
+		if err != nil {
+			log.Fatal(err)
+		}
+		err = slasher.RemoveIdentities(identities)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
 }

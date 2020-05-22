@@ -18,3 +18,4 @@ Start:
     revokecert - for certificate revocation 
     removeidentity - for identity removal 
     fullslash - for both options
+    delall - delete all users (certs and identities)
