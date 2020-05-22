@@ -23,7 +23,6 @@ type Slasher struct {
 }
 
 func New(conf *slasherConfig.Config) (*Slasher, error) {
-
 	fabConfig := config.FromFile(conf.ConnectionProfile)
 	sdk, err := fabsdk.New(fabConfig)
 	if err != nil {
@@ -78,18 +77,19 @@ func (s *Slasher) Revoke() (*msp.RevocationResponse, error) {
 	return RevocationResponse, nil
 }
 
-func (s *Slasher) RevokeAll(identities []*msp.IdentityResponse) error {
-
+func (s *Slasher) RevokeAll(identities []*msp.IdentityResponse, exclude string) error {
 	for _, identity := range identities {
-		revocationResponse, err := s.MSPClient.Revoke(&msp.RevocationRequest{
-			Name:   identity.ID,
-			CAName: identity.CAName,
-		})
-		if err != nil {
-			return err
-		}
+		if identity.ID != exclude {
+			revocationResponse, err := s.MSPClient.Revoke(&msp.RevocationRequest{
+				Name:   identity.ID,
+				CAName: identity.CAName,
+			})
+			if err != nil {
+				return err
+			}
 
-		helpers.ShowRevoked(revocationResponse)
+			helpers.ShowRevoked(revocationResponse)
+		}
 	}
 
 	return nil
@@ -109,18 +109,19 @@ func (s *Slasher) RemoveIdentity() (*msp.IdentityResponse, error) {
 	return IdentityResponse, nil
 }
 
-func (s *Slasher) RemoveIdentities(identities []*msp.IdentityResponse) error {
+func (s *Slasher) RemoveIdentities(identities []*msp.IdentityResponse, exclude string) error {
 
 	for _, identity := range identities {
-		identityResponse, err := s.MSPClient.RemoveIdentity(&msp.RemoveIdentityRequest{
-			ID:     identity.ID,
-			Force:  true,
-			CAName: identity.CAName,
-		})
-		if err != nil {
-			return err
+		if identity.ID != exclude {
+			identityResponse, err := s.MSPClient.RemoveIdentity(&msp.RemoveIdentityRequest{
+				ID:     identity.ID,
+				CAName: identity.CAName,
+			})
+			if err != nil {
+				return err
+			}
+			helpers.ShowRemoved(identityResponse)
 		}
-		helpers.ShowRemoved(identityResponse)
 	}
 
 	return nil
