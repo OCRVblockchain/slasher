@@ -9,6 +9,7 @@ import (
 )
 
 type Config struct {
+	Exclude           string
 	Mode              string
 	ActionUser        string
 	Secret            string
@@ -39,6 +40,7 @@ func GetConfig() (*Config, error) {
 	flag.String("identity", "admin", "identity that do revocation request")
 	flag.String("secret", "", "identity secret")
 	flag.String("mode", "fullslash", "mode\n--mode revokecert - for certificate revocation\n--mode removeidentity - for identity removal\n--mode fullslash - for both options")
+	flag.String("exclude", "", "--exclude identity - exclude identity from deletion list when using mode 'delall'")
 
 	pflag.CommandLine.AddGoFlagSet(flag.CommandLine)
 	pflag.Parse()
@@ -49,6 +51,7 @@ func GetConfig() (*Config, error) {
 	identity := viper.Get("identity")
 	secret := viper.Get("secret")
 	mode := viper.Get("mode")
+	exclude := viper.Get("exclude")
 
 	// read config
 	viper.SetConfigName("config")
@@ -82,6 +85,7 @@ func GetConfig() (*Config, error) {
 	slasherConfiguration.Mode = m
 	slasherConfiguration.ActionUser = i
 	slasherConfiguration.Secret = s
+	slasherConfiguration.Exclude = exclude.(string)
 
 	return slasherConfiguration, nil
 }
