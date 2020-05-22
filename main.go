@@ -46,11 +46,12 @@ func main() {
 			log.Fatal(err)
 		}
 
-		err = slasher.RevokeAll(identities)
+		err = slasher.RemoveIdentities(identities, slasher.Conf.Exclude)
 		if err != nil {
 			log.Fatal(err)
 		}
-		err = slasher.RemoveIdentities(identities)
+
+		err = slasher.RevokeAll(identities, slasher.Conf.Exclude)
 		if err != nil {
 			log.Fatal(err)
 		}
